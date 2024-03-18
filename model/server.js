@@ -1,5 +1,6 @@
 import  express  from "express";
 import cors from 'cors';
+import { router } from "../routes/users.js";
 
 class Server{
 
@@ -12,37 +13,18 @@ class Server{
     }
 
     middleware(){
+        //CORS
         this.app.use(cors());
+        //LECTURA DE DATOS
+        this.app.use(express.json());
+        //HTML
         this.app.use(express.static("public"));
     }
 
     routes(){
         
-        this.app.get("/hola", (req, res) => {
-            res.status(201).json({
-                message: "Hola mundo"
-            });
-            res.end();
-        })
-        this.app.post("/hola", (req, res) => {
-            res.json({
-                message: "Hola mundo"
-            });
-            res.end();
-        })
-        this.app.put("/hola", (req, res) => {
-            res.json({
-                message: "Hola mundo"
-            });
-            res.end();
-        })
-        this.app.delete("/hola", (req, res) => {
-            res.json({
-                message: "Hola mundo"
-            });
-            res.end();
-        })
-
+        this.app.use("/api/users",router);
+    
     }
 
     listen(){
