@@ -1,3 +1,5 @@
+import bcryptjs from 'bcryptjs';
+import { UserModel } from "../model/Usuario.js";
 
 
 const getUser = (req, res) => {
@@ -11,14 +13,21 @@ const getUser = (req, res) => {
     res.end();
 };
 
-const postUser = (req, res) => {
+const postUser = async(req, res) => {
 
-    const parametro = req.params.id
+
+    const {nombre, correo, password, role, img, state, google} = req.body;
+    const usuario = new UserModel({nombre, correo, password, role, img, state, google});
+
+
+    const salt = bcryptjs.genSaltSync(10);
+    usuario.password = bcryptjs.hashSync(password, salt);
+
+    await usuario.save();
     res.json({
-        "MESSAGE": "Hola mundo",
-        id: parametro
+        usuario
     });
-    res.end();
+
 }
 
 const updateUser = (req, res) => {

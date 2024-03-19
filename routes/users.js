@@ -6,7 +6,7 @@ const router = Router();
 router.get("/", getUser);
 
 //POSTEAR USUARIO
-router.post("/:id", postUser);
+router.post("/", postUser);
 
 //ACTUALIZAR USUARIO
 router.put("/", updateUser);
