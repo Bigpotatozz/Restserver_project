@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+import { UserModel } from '../model/Usuario.js';
 
 
 const validarCampos = (req, res, next) => {
@@ -12,4 +13,17 @@ const validarCampos = (req, res, next) => {
 }
 
 
-export {validarCampos};
+const emailExiste = async(req,res, next) => {
+    const {correo} = req.body;
+    const verificarEmail = await UserModel.findOne({correo});
+    if(verificarEmail){
+        return res.status(400).json({
+            msg: "Ocurrio un error"
+        })
+    };
+
+    next();
+}
+
+
+export {validarCampos, emailExiste};
