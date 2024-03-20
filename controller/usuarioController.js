@@ -1,5 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import { UserModel } from "../model/Usuario.js";
+import { validarCampos } from '../middlewares/validarCampos.js';
 
 
 const getUser = (req, res) => {
@@ -18,6 +19,14 @@ const postUser = async(req, res) => {
 
     const {nombre, correo, password, role, img, state, google} = req.body;
     const usuario = new UserModel({nombre, correo, password, role, img, state, google});
+
+    //VALIDACION DEL CORREO
+    const verificarEmail = await UserModel.findOne({correo});
+    if(verificarEmail){
+        return res.status(400).json({
+            msg: "Ocurrio un error"
+        })
+    };
 
 
     const salt = bcryptjs.genSaltSync(10);
