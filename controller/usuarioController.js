@@ -3,13 +3,19 @@ import { UserModel } from "../model/Usuario.js";
 import { validarCampos } from '../middlewares/validarCampos.js';
 
 
-const getUser = (req, res) => {
+const getUser = async(req, res) => {
 
-    const querys = req.query;
+    const {limit, from} = req.query;
+     //const usuarios = await UserModel.find({state: true}).limit(Number(limit)).skip(Number(from));
+     //const totalRegistros = await UserModel.countDocuments({state: true});
+
+    const promesas = await Promise.all([
+        UserModel.countDocuments({state: true}),
+        UserModel.find({state: true}).limit(Number(limit)).skip(Number(from))
+    ])
 
     res.status(201).json({
-        message: "Hola mundo GET",
-        querys
+        promesas
     });
     res.end();
 };
@@ -30,16 +36,36 @@ const postUser = async(req, res) => {
 
 }
 
-const updateUser = (req, res) => {
+const updateUser = async(req, res) => {
+
+    const {id} = req.params;
+    //EXTRAE DATOS
+    const {_id, correo, password, google, role ,...usuarioResto} = req.body;
+
+    if(password){
+        const salt = bcryptjs.genSaltSync(10);
+        usuarioResto.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const user = await UserModel.findByIdAndUpdate(id, usuarioResto);
+
     res.json({
-        message: "Hola mundo PUT"
+        user
     });
     res.end();
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async(req, res) => {
+
+    const {id} = req.params;
+
+    //ELIMINACION FISICA
+   // const usuarioEliminado = await UserModel.findByIdAndDelete(id);
+
+   const usuarioEliminado = await UserModel.findByIdAndUpdate(id, {state: false})
+
     res.json({
-        message: "Hola mundo DELETE"
+        usuarioEliminado
     });
     res.end();
 }
