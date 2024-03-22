@@ -30,9 +30,22 @@ const postUser = async(req, res) => {
 
 }
 
-const updateUser = (req, res) => {
+const updateUser = async(req, res) => {
+
+    const {id} = req.params;
+    const {password, google, correo, ...usuario} = req.body;
+
+    if(password){
+        const salt = bcryptjs.genSaltSync(10);
+        usuario.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const user = await UserModel.findByIdAndUpdate(id, usuario);
+
+
     res.json({
-        message: "Hola mundo PUT"
+        message: "Hola mundo PUT",
+        user
     });
     res.end();
 }

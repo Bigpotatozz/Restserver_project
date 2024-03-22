@@ -22,7 +22,7 @@ router.post("/",[
 ],postUser);
 
 //ACTUALIZAR USUARIO
-router.put("/", updateUser);
+router.put("/:id", updateUser);
 
 //ELIMINAR USUARIO
 router.delete("/", deleteUser);
