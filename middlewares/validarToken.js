@@ -2,7 +2,7 @@ import  jwt from "jsonwebtoken";
 
 const validarJWT = (req, res, next) => {
 
-    const token = req.header('token');
+        const token = req.header('token');
 
     if(!token){
         return res.status(401).send({
