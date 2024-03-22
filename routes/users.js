@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { deleteUser, getUser, postUser, updateUser } from "../controller/usuarioController.js";
-import { body } from "express-validator";
+import { body ,param} from "express-validator";
 import { emailExiste, validarCampos } from "../middlewares/validarCampos.js";
 import { validarRol } from "../helpers/dbValidators.js";
+import { validarJWT } from "../middlewares/validarToken.js";
 
 
 const router = Router();
@@ -22,10 +23,17 @@ router.post("/",[
 ],postUser);
 
 //ACTUALIZAR USUARIO
-router.put("/:id", updateUser);
+router.put("/:id",[
+    param('id').isMongoId(),
+    validarCampos
+], updateUser);
 
 //ELIMINAR USUARIO
-router.delete("/", deleteUser);
+router.delete("/:id",[
+    validarJWT,
+    param('id').isMongoId(),
+    validarCampos
+], deleteUser);
 
 
 

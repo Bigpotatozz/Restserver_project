@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { UserModel } from '../model/Usuario.js';
+import { UserModel } from '../model/usuario.js';
 
 
 const validarCampos = (req, res, next) => {
