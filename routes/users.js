@@ -3,6 +3,7 @@ import { deleteUser, getUser, postUser, updateUser } from "../controller/usuario
 import { body ,param} from "express-validator";
 import { emailExiste, validarCampos } from "../middlewares/validarCampos.js";
 import { validarRol } from "../helpers/dbValidators.js";
+import { validarJWT } from "../middlewares/validarToken.js";
 
 
 const router = Router();
@@ -29,6 +30,7 @@ router.put("/:id",[
 
 //ELIMINAR USUARIO
 router.delete("/:id",[
+    validarJWT,
     param('id').isMongoId(),
     validarCampos
 ], deleteUser);

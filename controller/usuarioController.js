@@ -1,5 +1,5 @@
 import bcryptjs from 'bcryptjs';
-import { UserModel } from "../model/Usuario.js";
+import { UserModel } from "../model/usuario.js";
 import { validarCampos } from '../middlewares/validarCampos.js';
 
 
@@ -57,7 +57,7 @@ const updateUser = async(req, res) => {
 
 const deleteUser = async(req, res) => {
 
-    const {id} = req.params;
+    const id = req.uid;
 
     //ELIMINACION FISICA
    // const usuarioEliminado = await UserModel.findByIdAndDelete(id);

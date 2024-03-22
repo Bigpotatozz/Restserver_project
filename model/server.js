@@ -2,6 +2,7 @@ import  express  from "express";
 import cors from 'cors';
 import { router } from "../routes/users.js";
 import { dbConnection } from "../database/config.js";
+import { routerLogin } from "../routes/auth.js";
 
 class Server{
 
@@ -28,7 +29,7 @@ class Server{
     }
 
     routes(){
-        
+        this.app.use("/api/auth/",routerLogin);
         this.app.use("/api/users",router);
     
     }
