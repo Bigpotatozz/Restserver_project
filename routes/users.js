@@ -4,6 +4,7 @@ import { body ,param} from "express-validator";
 import { emailExiste, validarCampos } from "../middlewares/validarCampos.js";
 import { validarRol } from "../helpers/dbValidators.js";
 import { validarJWT } from "../middlewares/validarToken.js";
+import { tieneRol } from "../middlewares/validarRol.js";
 
 
 const router = Router();
@@ -31,6 +32,7 @@ router.put("/:id",[
 //ELIMINAR USUARIO
 router.delete("/:id",[
     validarJWT,
+    tieneRol("ADMIN","VENTAS"),
     param('id').isMongoId(),
     validarCampos
 ], deleteUser);
