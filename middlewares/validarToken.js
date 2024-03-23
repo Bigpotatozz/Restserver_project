@@ -19,7 +19,7 @@ const validarJWT = async(req, res, next) => {
         const usuarioValidado = await UserModel.findById(uid);
 
         //VALIDA QUE EL USUARIO EXISTA EN LA BASE DE DATOS
-        if(usuarioValidado){
+        if(!usuarioValidado){
             return res.status(401).send({
                 msg: "Token no valido"
             });

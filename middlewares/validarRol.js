@@ -20,10 +20,11 @@ const validarAdmin = async(req, res, next) => {
 
 }
 
-const tieneRol = async(...roles) => {
+const tieneRol = (...roles) => {
 
 
     return (req, res, next) => {
+
         if(!req.usuario){
             return res.status(500).send({
                 msg: "Hubo un error"
@@ -31,7 +32,7 @@ const tieneRol = async(...roles) => {
         };
         
         
-        if(!roles.includes(req.usuario.rol)){
+        if(!roles.includes(req.usuario.role)){
             return res.status(401).send({
                 msg: "Accion no permitida"
             });

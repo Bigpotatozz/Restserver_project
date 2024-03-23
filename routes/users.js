@@ -32,7 +32,7 @@ router.put("/:id",[
 //ELIMINAR USUARIO
 router.delete("/:id",[
     validarJWT,
-    tieneRol("ADMIN","VENTAS"),
+    tieneRol("ADMIN","USER"),
     param('id').isMongoId(),
     validarCampos
 ], deleteUser);
