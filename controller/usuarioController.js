@@ -64,7 +64,7 @@ const deleteUser = async(req, res) => {
     //ELIMINACION FISICA
    // const usuarioEliminado = await UserModel.findByIdAndDelete(id);
 
-   const usuarioEliminado = await UserModel.findByIdAndUpdate(id, {state: false})
+   const usuarioEliminado = await UserModel.findByIdAndUpdate(id, {state: false});
 
     res.json({
         usuarioEliminado,

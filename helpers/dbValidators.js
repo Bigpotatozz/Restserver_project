@@ -9,4 +9,6 @@ const validarRol = async(rol) => {
 }
 
 
+
+
 export {validarRol};

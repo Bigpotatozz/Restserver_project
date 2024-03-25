@@ -7,5 +7,63 @@
 </head>
 <body>
     <h1>Carpeta publica</h1>
+
+    <div id="g_id_onload"
+        data-client_id="687904084086-dv98fsnn9op4a2rfd0q4gunakbj2egi2.apps.googleusercontent.com"
+        data-auto_prompt="false"
+        data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left">
+    </div>
+
+
+
+    <button id="logout">Cerrar sesion</button>
+    
+
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script>
+    function handleCredentialResponse(response) {
+        
+        const idToken = {idToken: response.credential};
+
+        fetch("http://localhost:8080/api/auth/googleLogin", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(idToken)
+        }).then (res => {return res.json()})
+            .then((resp) => {
+                console.log(resp)
+            })
+            .catch(e => {
+                console.log(e);
+            })
+        
+ 
+    }
+
+
+    let logout = document.querySelector("#logout");
+
+    logout.addEventListener("click", () => {
+        google.accounts.id.disableAutoSelect();
+
+        google.accounts.id.revoke(localStorage.getItem('email'), done => {
+            localStorage.clear();
+            location.reload();
+        });
+    })
+
+
+  </script>
+  
 </body>
 </html>

@@ -1,3 +1,4 @@
+import { verify } from "../helpers/googleVerify.js";
 import { generarToken } from "../helpers/jwtGenerator.js";
 import { UserModel } from "../model/usuario.js";
 import bcryptjs from 'bcryptjs';
@@ -51,4 +52,56 @@ const login = async(req, res) => {
  
 }
 
-export {login}
+
+const loginGoogle = async(req, res) => {
+
+    try{
+        const {idToken} = req.body;
+        const  {nombre,correo,img} = await verify(idToken);
+
+        let usuario = await UserModel.findOne({correo});
+
+        if(!usuario){
+
+            const data = {
+                nombre,
+                correo,
+                password: "123456",
+                img,
+                role:"USER",
+                google:true
+            }
+            
+            usuario = new UserModel(data);
+            await usuario.save();
+
+        }
+       
+        if(usuario.state === false){
+            return res.status(401).send({
+                msg: "Usuario bloqueado, hable con el administrador"
+            })
+        }
+
+
+        const token = await generarToken(usuario._id)
+
+
+       
+    res.status(200).send({
+        usuario,
+        token
+    })
+
+
+    }catch(e){
+        return res.status(500).send({
+            msg: e
+        })
+    }
+
+
+
+}
+
+export {login, loginGoogle}
