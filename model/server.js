@@ -6,6 +6,8 @@ import { routerLogin } from "../routes/auth.js";
 import { routerCategorias } from "../routes/categorias.js";
 import { routerProductos } from "../routes/productos.js";
 import { routerBuscar } from "../routes/buscar.js";
+import { routerUploads } from "../routes/uploads.js";
+import fileUpload from "express-fileupload";
 
 class Server{
 
@@ -29,6 +31,12 @@ class Server{
         this.app.use(express.json());
         //HTML
         this.app.use(express.static("public"));
+
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }))
     }
 
     routes(){
@@ -37,6 +45,7 @@ class Server{
         this.app.use("/api/categorias/", routerCategorias);
         this.app.use("/api/productos/", routerProductos);
         this.app.use("/api/buscar", routerBuscar);
+        this.app.use("/api/uploads",routerUploads);
     
     }
 
