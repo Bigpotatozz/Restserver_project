@@ -3,7 +3,7 @@ import  path from "path";
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const subirArchivo = (files, extensionesPermitidas = ['pdf','img', 'png'], carpeta = '') => {
+const subirArchivo = (files, extensionesPermitidas = ['pdf','img', 'png', 'jpg'], carpeta = '') => {
  
  
     return new Promise((resolve, reject) => {
@@ -26,7 +26,7 @@ const subirArchivo = (files, extensionesPermitidas = ['pdf','img', 'png'], carpe
         archivo.mv(uploadPath, function(err) {
           if (err) {return reject}
       
-          resolve('File uploaded!');
+          resolve(finalFileName);
         });
         
        
